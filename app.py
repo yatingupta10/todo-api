@@ -14,7 +14,7 @@ tasks = [
     {
         'id': 1,
         'title': u'Buy groceries',
-        'description': u'Milk, Cheese, Pizza, Fruit, Tylenol', 
+        'description': u'Milk, Cheese, Pizza', 
         'done': False
     },
     {
@@ -36,10 +36,6 @@ def make_public_task(task):
 
 @app.route('/todo/api/v1.0/tasks', methods=['GET'])
 @auth.login_required
-def get_tasks():
-    return jsonify({'tasks': tasks})
-
-@app.route('/todo/api/v1.0/tasks', methods=['GET'])
 def get_tasks():
     return jsonify({'tasks': [make_public_task(task) for task in tasks]})
 
@@ -96,13 +92,17 @@ def delete_task(task_id):
 
 @auth.get_password
 def get_password(username):
-    if username == 'miguel':
+    if username == 'yatin':
         return 'python'
     return None
 
 @auth.error_handler
 def unauthorized():
     return make_response(jsonify({'error': 'Unauthorized access'}), 401)
+
+@auth.error_handler
+def unauthorized():
+    return make_response(jsonify({'error': 'Unauthorized access'}), 403)
 
 if __name__ == '__main__':
     app.run(debug=True)
